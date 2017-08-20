@@ -11,6 +11,10 @@ h1 {
 	margin-top: 10px;
 }
 
+.carousel {
+	height: 350px;
+}
+
 .flex-box {
 	display: flex;
 	flex-direction: row;
@@ -38,9 +42,17 @@ height: 300px;
 }
 
 .carousel-indicators {
-  bottom:-50px;
+  bottom: -5px;
 }
 
 .carousel-inner {
    margin-bottom:50px;
+}
+
+.caption {
+	position: absolute;
+	bottom: 15px;
+	width: 100%;
+	color: white;
+	text-align: center;
 }

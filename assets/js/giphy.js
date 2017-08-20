@@ -19,12 +19,12 @@ var display = {
   },
   carouselInner: function(num, rating, src, src_s) {
     var item = $('<div>').addClass('item').attr('number', num);
+    item.attr('rating', rating);
     if (num === 0) item.addClass('active');
 
     var img = $('<img>').attr('src', src).addClass('giphy');
     img.attr('data-animate', src);
     img.attr('data-still', src_s);
-    img.attr('data-rating', rating);
     item.append(img);
     return item;
   },
@@ -74,9 +74,12 @@ var handle = {
       $('.carousel').empty();
       var ol = $('<ol>').addClass('carousel-indicators');
       var div = $('<div>').addClass('carousel-inner');
+      var caption = $('<p>').addClass('caption');
+      var rated;
 
       for (var i = 0; i < response.data.length; i++) {
         var rating = response.data[i].rating.toUpperCase();
+        if (i === 0) rated = rating;
         var src = response.data[i].images.fixed_height.url;
         var src_s = response.data[i].images.fixed_height_still.url;
         ol.append(display.carouselIndicators(i));
@@ -85,6 +88,9 @@ var handle = {
 
       $('.carousel').append(ol);
       $('.carousel').append(div);
+      caption.text("Rated: "+rated);
+      $('.carousel').append(caption);
+
       display.carouselArrow("left");
       display.carouselArrow("right");
     }); 
@@ -114,18 +120,24 @@ $(document).on('click', '.carousel-control', function() {
   $('.indicators').removeClass('active');
   var direction = $(this).attr('data-slide');
 
-  if (direction === "prev") {
-    num === 0 ? num = 9 : num--;
-  }
-  else {
-    num === 9 ? num = 0 : num++;
-  }
+  if (direction === "prev") num === 0 ? num = 9 : num--;
+  else num === 9 ? num = 0 : num++;
+
   var makeActive = $('.indicators')[num];
   $('.carousel-indicators').find(makeActive).addClass('active');
+
+  var activeItem = $('.item')[num];
+  var rated = $('.carousel-inner').find(activeItem).attr('rating');
+  $('.caption').text("Rated: "+rated);
 });
 $(document).on('click', '.indicators', function() { 
   $('.indicators').removeClass('active');
+
   var makeActive = $('.indicators')[$(this).attr('data-slide-to')];
   $('.carousel-indicators').find(makeActive).addClass('active');
+
+  var activeItem = $('.item')[$(this).attr('data-slide-to')];
+  var rated = $('.carousel-inner').find(activeItem).attr('rating');
+  $('.caption').text("Rated: "+rated);
 });
 
