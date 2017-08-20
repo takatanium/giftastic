@@ -1,0 +1,46 @@
+body {
+	background-image: url("../images/darkness.png");
+}
+
+h1 {
+	text-align: center;
+	font-family: 'Sedgwick Ave Display', cursive;
+}
+
+.container {
+	margin-top: 10px;
+}
+
+.flex-box {
+	display: flex;
+	flex-direction: row;
+}
+
+.drop-item {
+	cursor: pointer; 
+  cursor: hand;
+}
+
+.carousel-inner > .item > img, 
+.carousel-inner > .item > a > img{
+margin: auto;
+height: 300px;
+}
+
+.jumbotron {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-bottom: 10px;
+}
+
+.well {
+	margin-top: 10px;
+}
+
+.carousel-indicators {
+  bottom:-50px;
+}
+
+.carousel-inner {
+   margin-bottom:50px;
+}
