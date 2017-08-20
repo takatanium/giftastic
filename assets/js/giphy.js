@@ -13,12 +13,12 @@ var display = {
 
   carouselIndicators: function(num) {
     var ind = $('<li>').attr('data-target', '#myCarousel');
-    ind.attr('data-slide-to', num);
+    ind.attr('data-slide-to', num).addClass('indicators');
     if (num === 0) ind.addClass('active');
     return ind;
   },
   carouselInner: function(num, rating, src, src_s) {
-    var item = $('<div>').addClass('item');
+    var item = $('<div>').addClass('item').attr('number', num);
     if (num === 0) item.addClass('active');
 
     var img = $('<img>').attr('src', src).addClass('giphy');
@@ -107,7 +107,25 @@ var handle = {
 $(document).on('click', '.topics', handle.clickTopic);
 $(document).on('click', '.giphy', handle.toggleGifs);
 $(document).keypress(function(e) {
-  if(e.which == 13) {
-    handle.addTopic();
-  }
+  if(e.which == 13) handle.addTopic();
 });
+$(document).on('click', '.carousel-control', function() {
+  var num = parseInt($('.carousel-inner').find('.active').attr('number'));
+  $('.indicators').removeClass('active');
+  var direction = $(this).attr('data-slide');
+
+  if (direction === "prev") {
+    num === 0 ? num = 9 : num--;
+  }
+  else {
+    num === 9 ? num = 0 : num++;
+  }
+  var makeActive = $('.indicators')[num];
+  $('.carousel-indicators').find(makeActive).addClass('active');
+});
+$(document).on('click', '.indicators', function() { 
+  $('.indicators').removeClass('active');
+  var makeActive = $('.indicators')[$(this).attr('data-slide-to')];
+  $('.carousel-indicators').find(makeActive).addClass('active');
+});
+
