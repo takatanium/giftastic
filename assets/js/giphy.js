@@ -7,6 +7,13 @@ $(document).ready(function(){
     handle.addTopic();
   });
 
+  $('input[type=range]').on('input', function () {
+    var numGifs = $('#slider').val();
+    var string;
+    numGifs === "1" ? string = numGifs + " Gif" : string = numGifs + " Gifs";
+    $('#num_gifs').text("Retrieve " + string);
+  });
+
 });
 
 var display = {
@@ -61,9 +68,10 @@ var handle = {
   },
   selectTopic: function(topic) {
     $('#title').text(topic.toUpperCase()+"-GIPHIES");
+    var numGifs = $('#slider').val();
 
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-      topic + "&api_key=dc6zaTOxFJmzC&limit=10";
+      topic + "&api_key=dc6zaTOxFJmzC&limit="+numGifs;
 
     $.ajax({
       url: queryURL,
@@ -120,8 +128,9 @@ $(document).on('click', '.carousel-control', function() {
   $('.indicators').removeClass('active');
   var direction = $(this).attr('data-slide');
 
-  if (direction === "prev") num === 0 ? num = 9 : num--;
-  else num === 9 ? num = 0 : num++;
+  var maxNum = parseInt($('#slider').val())-1;
+  if (direction === "prev") num === 0 ? num = maxNum : num--;
+  else num === maxNum ? num = 0 : num++;
 
   var makeActive = $('.indicators')[num];
   $('.carousel-indicators').find(makeActive).addClass('active');
