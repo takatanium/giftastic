@@ -59,6 +59,12 @@ height: 300px;
 	text-align: center;
 	font-size: 16px;
 }
+
+.dropdown-menu {
+	max-height: 170px;
+	overflow-y: scroll;
+}
+
 /*Slider*/
 input[type=range] {
   -webkit-appearance: none;

@@ -1,4 +1,4 @@
-var topics = ["cat", "dog"];
+var topics = ["eclipse", "sun", "stars"];
 
 $(document).ready(function(){
 
@@ -14,20 +14,33 @@ $(document).ready(function(){
     $('#num_gifs').text("Retrieve " + string);
   });
 
+  $('input[type=range]').mouseup(function(){
+    var numGifs = $('#slider').val();
+
+    if ($('.carousel').attr('topic') !== "") {
+      var num = parseInt($('.carousel-inner').find('.active').attr('number'));
+      $('.indicators').removeClass('active');
+
+      var active;
+      num > numGifs-1 ? active = numGifs-1 : active = num;
+      handle.selectTopic($('.carousel').attr('topic'), active);
+    }
+  });
+
 });
 
 var display = {
 
-  carouselIndicators: function(num) {
+  carouselIndicators: function(num, active) {
     var ind = $('<li>').attr('data-target', '#myCarousel');
     ind.attr('data-slide-to', num).addClass('indicators');
-    if (num === 0) ind.addClass('active');
+    if (num === active) ind.addClass('active');
     return ind;
   },
-  carouselInner: function(num, rating, src, src_s) {
+  carouselInner: function(num, active, src, src_s, rating) {
     var item = $('<div>').addClass('item').attr('number', num);
     item.attr('rating', rating);
-    if (num === 0) item.addClass('active');
+    if (num === active) item.addClass('active');
 
     var img = $('<img>').attr('src', src).addClass('giphy');
     img.attr('data-animate', src);
@@ -64,9 +77,11 @@ var display = {
 var handle = {
   clickTopic: function() {
     var topic = $(this).data('topic');
-    handle.selectTopic(topic);
+    $('.carousel').attr('topic', topic);
+    handle.selectTopic(topic, 0);
+    $('#input').val(topic);
   },
-  selectTopic: function(topic) {
+  selectTopic: function(topic, active) {
     $('#title').text(topic.toUpperCase()+"-GIPHIES");
     var numGifs = $('#slider').val();
 
@@ -87,11 +102,11 @@ var handle = {
 
       for (var i = 0; i < response.data.length; i++) {
         var rating = response.data[i].rating.toUpperCase();
-        if (i === 0) rated = rating;
+        if (i === active) rated = rating;
         var src = response.data[i].images.fixed_height.url;
         var src_s = response.data[i].images.fixed_height_still.url;
-        ol.append(display.carouselIndicators(i));
-        div.append(display.carouselInner(i, rating, src, src_s));
+        ol.append(display.carouselIndicators(i, active));
+        div.append(display.carouselInner(i, active, src, src_s, rating));
       }
 
       $('.carousel').append(ol);
@@ -104,13 +119,19 @@ var handle = {
     }); 
   },
   addTopic: function() {
-    var topic = $('#input').val();
+    var topic = $('#input').val().toLowerCase();
+    $('.carousel').attr('topic', topic);
     if (topic !== "") {
-      topics.push(topic);
-      display.dropdown();
-      $('#input').val('');
-      handle.selectTopic(topic);
+      console.log(topic);
+      if (topics.indexOf(topic) === -1) {
+        topics.push(topic);
+        display.dropdown();
+      }
+      handle.selectTopic(topic, 0);
     }
+  },
+  checkArray: function(topic) {
+
   },
   toggleGifs: function() {
     $(this).attr('src') === $(this).data('still') ? $(this).attr('src', $(this).data('animate')) 
