@@ -130,9 +130,6 @@ var handle = {
       handle.selectTopic(topic, 0);
     }
   },
-  checkArray: function(topic) {
-
-  },
   toggleGifs: function() {
     $(this).attr('src') === $(this).data('still') ? $(this).attr('src', $(this).data('animate')) 
                                                   : $(this).attr('src', $(this).data('still'));

@@ -9,10 +9,13 @@ h1 {
 
 .container {
 	margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .carousel {
-	height: 350px;
+  height: 350px;
 }
 
 .flex-box {
@@ -27,8 +30,8 @@ h1 {
 
 .carousel-inner > .item > img, 
 .carousel-inner > .item > a > img{
-margin: auto;
-height: 300px;
+  margin: auto;
+  height: 300px;
 }
 
 .jumbotron {
